@@ -30,6 +30,6 @@
         $fields = array("replay" => "/help");
         $response = CurlRequest("http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID",
             $fields);
-        print_r($response);
+        echo($response["return_text"]);
 
 ?>
