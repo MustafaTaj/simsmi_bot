@@ -11,10 +11,10 @@
 * \*======================================================================*/
 session_start();
 /*$sessionfile = fopen("sessionfile.txt", "r");
-session_decode(fputs($sessionfile,  4096) );
+session_decode(fget($sessionfile,  4096) );
 fclose($sessionfile);*/
 
-echo "Session | " . $_SESSION["testing"];
+print_r($_SESSION) ;
 $_SESSION["testing"] = "tt" ;
 
 echo "<br />" . session_encode( ) ;
