@@ -16,7 +16,7 @@ ini_set('memcached.sess_sasl_username', '29667b');
 ini_set('memcached.sess_sasl_password', '412a446a87da30a3081abd036ac09202');
 
 session_start();
-echo "test1: "; print_r($_SESSION) ;
+echo "test2: "; print_r($_SESSION) ;
 $_SESSION["testing"] = "tt" ;
 
 ?>
