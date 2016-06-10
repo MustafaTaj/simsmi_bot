@@ -21,7 +21,7 @@ $UniqID = $update->message->chat->id . "::" . $update->message->chat->username;
 //your app
 try {
     if ($update->message->text == '/me') {
-        die(json_encode(array("return_type" => "text", "return_text" => json_encode($update))));
+        json_encode(array("return_type" => "text", "return_text" => json_encode($update)));
 
     } else {
         $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
