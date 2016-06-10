@@ -23,7 +23,8 @@ $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYE
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $action = $_SESSION[$update->message->chat->id . "action"];
-if ($action == '') {
+
+if (! isset($action)) {
     //your app
     try {
         if ($update->message->text == '/about' || $update->message->text == '/start') {
@@ -75,7 +76,7 @@ if ($action == '') {
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة $action"]);
+                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '$action'"]);
         }
 
     }
