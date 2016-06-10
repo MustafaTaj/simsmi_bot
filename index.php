@@ -18,90 +18,53 @@ $update = json_decode(file_get_contents('php://input'));
 $UniqID = $update->message->chat->id . "::" . $update->message->chat->username;
 
 
-    //your app
-    try {
-        if ($update->message->text == '/about' || $update->message->text == '/start') {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "التطبيق الرسمي لجامعة أمدرمان الإسلامية كلية الطب والعلوم الصحية \nهذا البوت خاص ببرنامج تليجرام فقط ولا يعمل على نظام غيره, يمكنك الإستفادة من خدمات الموقع مباشرةً من خلال هذا البوت \n برمجة وتطوير : مصطفى تاج السر ( الدفعة 25 ) \n للبدء بإستخدام البوت فضلاً إستخدام الأمر /start\nللحصول على قائمة أوامر المساعدة إستخدم الأمر /help"]);
+//your app
+try {
+    if ($update->message->text == '/me') {
+        die(json_encode(array("return_type" => "text", "return_text" => json_encode($update))));
 
-        } elseif ($update->message->text == '/contact') {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
+    } else {
+        $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
+        $fields = array("replay" => $update->message->text);
+        $response = CurlRequest("http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID",
+            $fields);
+        if ($response["return_type"] == "text")
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "يمكنك التواصل معي عبر البريد : for.u.400@gmail.com \nأو الإتصال بي عبر الرقم: 0914191191 \nمصطفى تاج السر - كلية الطب بجامعة أمدرمان الإسلامية ( الدفعة 25 )"]);
-
-        } elseif ($update->message->text == '/me') {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => json_encode($update)]);
-
-        } elseif ($update->message->text == '/link') {
-            $_SESSION[$UniqID] = "link";
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "فضلاً قم بكتابة مفتاح API الخاص بعضويتك لربطها بتطبيق التلجرام\n للحصول على مفتاح API فضلاً توجه للصفحة : http://oiu.edu.sd/medicine/student_cp.php?do=api"]);
-
-        } elseif ($update->message->text == '/help') {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "قائمة الأوامر المتاحة :\n /link -> ربط البوت مع عضوية الموقع\n /about -> معلومات حول البوت \n /contact -> بيانات الإتصال \n /help -> إظهار قائمة الأوامر المتاحة"]);
-
-        } elseif ($update->message->text == '/latest') {
-            Feed::$cacheDir = __dir__ . '/cache';
-            Feed::$cacheExpire = '5 hours';
-            $rss = Feed::loadRss($url);
-            $items = $rss->item;
-            $lastitem = $items[0];
-            $lastlink = $lastitem->link;
-            $lasttitle = $lastitem->title;
-            $message = $lasttitle . " \n " . $lastlink;
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => $message]);
-
-        } else {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة"]);
-        }
-
+                'text' => $response["return_text"]]);
     }
-    catch (\Zelenin\Telegram\Bot\NotOkException $e) {
+}
+catch (\Zelenin\Telegram\Bot\NotOkException $e) {
 
-        //echo error message ot log it
-        //echo $e->getMessage();
+    //echo error message ot log it
+    //echo $e->getMessage();
 
-    }
+}
 /*} else {
-    if ($action == "link") {
-        if ($update->message->text == '/cancel') {
-            $_SESSION[$UniqID] = '';
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "تم إلغاء ربط العضوية الخاصة بك بتطبيق التلجرام"]);
-            exit();
-        }
-        if (empty($update->message->text)) {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "فضلاً تحقق من كتابتك لمفتاح API الخاص بعضويتك !\nإختر الأمر /cancel لإلغاء الأمر"]);
-            exit();
-        }
-        if (strlen($update->message->text) != 40) {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "مفتاح API المدخل غير صحيح !\nإختر الأمر /cancel لإلغاء الأمر"]);
-            exit();
-        }
-    }
+if ($action == "link") {
+if ($update->message->text == '/cancel') {
+$_SESSION[$UniqID] = '';
+$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+'action' => 'typing']);
+$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+'text' => "تم إلغاء ربط العضوية الخاصة بك بتطبيق التلجرام"]);
+exit();
+}
+if (empty($update->message->text)) {
+$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+'action' => 'typing']);
+$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+'text' => "فضلاً تحقق من كتابتك لمفتاح API الخاص بعضويتك !\nإختر الأمر /cancel لإلغاء الأمر"]);
+exit();
+}
+if (strlen($update->message->text) != 40) {
+$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+'action' => 'typing']);
+$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+'text' => "مفتاح API المدخل غير صحيح !\nإختر الأمر /cancel لإلغاء الأمر"]);
+exit();
+}
+}
 }*/
+
+?>
