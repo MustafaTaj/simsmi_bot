@@ -29,54 +29,47 @@ try {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-            'text' => "التطبيق الرسمي لجامعة أمدرمان الإسلامية كلية الطب والعلوم الصحية \n هذا البوت خاص ببرنامج تليجرام فقط ولا يعمل على نظام غيره, يمكنك الإستفادة من خدمات الموقع مباشرةً من خلال هذا البوت \n برمجة وتطوير : مصطفى تاج السر ( الدفعة 25 ) \n للبدء بإستخدام البوت فضلاً إستخدام الأمر /start"]);
-            
+            'text' => "التطبيق الرسمي لجامعة أمدرمان الإسلامية كلية الطب والعلوم الصحية \nهذا البوت خاص ببرنامج تليجرام فقط ولا يعمل على نظام غيره, يمكنك الإستفادة من خدمات الموقع مباشرةً من خلال هذا البوت \n برمجة وتطوير : مصطفى تاج السر ( الدفعة 25 ) \n للبدء بإستخدام البوت فضلاً إستخدام الأمر /start\nللحصول على قائمة أوامر المساعدة إستخدم الأمر /help"]);
+
     } elseif ($update->message->text == '/contact') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-            'text' => "You can send email to : for.u.400@gmail.com \n or contact me via my phone number : 0914191191 \n Mustafa Taj (Batch 25) - OIU Medicine"]);
-            
+            'text' => "يمكنك التواصل معي عبر البريد : for.u.400@gmail.com \nأو الإتصال بي عبر الرقم: 0914191191 \nمصطفى تاج السر - كلية الطب بجامعة أمدرمان الإسلامية ( الدفعة 25 )"]);
+
     } elseif ($update->message->text == '/me') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
             'text' => json_encode($update)]);
-            
-    } elseif ($update->message->text == '/File') {
+
+    } elseif ($update->message->text == '/help') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
-        $response = $client->sendDocument(['chat_id' => $update->message->chat->id, 'document' => fopen('index.php',
-            'r')]);
-    } else
-        if ($update->message->text == '/help') {
-            $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "List of commands :\n /me -> Get list of info \n /email -> Get email address of the owner \n /latest -> Get latest posts of the blog 
-    		/help -> Shows list of available commands"]);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+            'text' => "List of commands :\n /about -> معلومات حول البوت \n /contact -> بيانات الإتصال \n 
+    		/help -> إظهار قائمة الأوامر المتاحة"]);
 
-        } else
-            if ($update->message->text == '/latest') {
-                Feed::$cacheDir = __dir__ . '/cache';
-                Feed::$cacheExpire = '5 hours';
-                $rss = Feed::loadRss($url);
-                $items = $rss->item;
-                $lastitem = $items[0];
-                $lastlink = $lastitem->link;
-                $lasttitle = $lastitem->title;
-                $message = $lasttitle . " \n " . $lastlink;
-                $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                    'action' => 'typing']);
-                $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                    'text' => $message]);
+    } elseif ($update->message->text == '/latest') {
+        Feed::$cacheDir = __dir__ . '/cache';
+        Feed::$cacheExpire = '5 hours';
+        $rss = Feed::loadRss($url);
+        $items = $rss->item;
+        $lastitem = $items[0];
+        $lastlink = $lastitem->link;
+        $lasttitle = $lastitem->title;
+        $message = $lasttitle . " \n " . $lastlink;
+        $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+            'text' => $message]);
 
-            } else {
-                $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                    'action' => 'typing']);
-                $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                    'text' => "Invalid command, please use /help to get list of available commands"]);
-            }
+    } else {
+        $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+            'text' => "Invalid command, please use /help to get list of available commands"]);
+    }
 
 }
 catch (\Zelenin\Telegram\Bot\NotOkException $e) {
