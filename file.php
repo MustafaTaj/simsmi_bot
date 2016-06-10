@@ -17,9 +17,14 @@ $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $UniqID = $update->message->chat->id . "::" . $update->message->chat->username;
 
-$response = $client->sendChatAction(['chat_id' => "58102614",
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => "58102614",
-                'text' => "Hi"]);
+$response = $client->sendChatAction(['chat_id' => "58102614", 'action' =>
+    'typing']);
+$fields = array("replay" => $update->message->text);
+$response = CurlRequest("http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID",
+    $fields);
+if ($response["return_type"] == "text")
+    $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+        'text' => $response["return_text"]]);
 
+echo $response["return_type"];
 ?>
