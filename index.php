@@ -47,7 +47,7 @@ try {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-            'text' => "قائمة الأوامر المتاحة :\n /about -> معلومات حول البوت \n /contact -> بيانات الإتصال \n /help -> إظهار قائمة الأوامر المتاحة"]);
+            'text' => "قائمة الأوامر المتاحة :\n /link xxx -> ربط البوت مع عضوية الموقع\n /about -> معلومات حول البوت \n /contact -> بيانات الإتصال \n /help -> إظهار قائمة الأوامر المتاحة"]);
 
     } elseif ($update->message->text == '/latest') {
         Feed::$cacheDir = __dir__ . '/cache';
