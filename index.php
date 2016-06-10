@@ -20,7 +20,7 @@ $UniqID = $update->message->chat->id . "::" . $update->message->chat->username;
 
 //your app
 try {
-    if ($_POST['replay'] == '/me') {
+    if ($update->message->text == '/me') {
         die(json_encode(array("return_type" => "text", "return_text" => json_encode($update))));
 
     } else {
@@ -66,3 +66,5 @@ exit();
 }
 }
 }*/
+
+?>
