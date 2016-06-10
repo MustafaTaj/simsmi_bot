@@ -25,12 +25,17 @@ $update = json_decode(file_get_contents('php://input'));
 
 //your app
 try {
-
-    if ($update->message->text == '/email') {
+    if ($update->message->text == '/about') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-            'text' => "You can send email to : Kasra@madadipouya.com"]);
+            'text' => "التطبيق الرسمي لجامعة أمدرمان الإسلامية كلية الطب والعلوم الصحية \n هذا البوت خاص ببرنامج تليجرام فقط ولا يعمل على نظام غيره, يمكنك الإستفادة من خدمات الموقع مباشرةً من خلال هذا البوت \n برمجة وتطوير : مصطفى تاج السر ( الدفعة 25 ) \n للبدء بإستخدام البوت فضلاً إستخدام الأمر /start"]);
+            
+    } elseif ($update->message->text == '/contact') {
+        $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+            'text' => "You can send email to : for.u.400@gmail.com \n or contact me via my phone number : 0914191191 \n Mustafa Taj (Batch 25) - OIU Medicine"]);
             
     } elseif ($update->message->text == '/me') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
