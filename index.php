@@ -73,11 +73,10 @@ if (! isset($SessionAction)) {
                 'text' => $message]);
 
         } else {
-            $_SESSION['error'] = "error";
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '". $_SESSION['error'] ."'"]);
+                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '". $update->message->chat->id . "action" ."'"]);
         }
 
     }
