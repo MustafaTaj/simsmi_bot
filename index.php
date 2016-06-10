@@ -46,11 +46,11 @@ if (! isset($SessionAction)) {
                 'text' => json_encode($update)]);
 
         } elseif ($update->message->text == '/link') {
+            $_SESSION["action" . $update->message->chat->id] = "link" ;
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => "فضلاً قم بكتابة مفتاح API الخاص بعضويتك لربطها بتطبيق التلجرام\n للحصول على مفتاح API فضلاً توجه للصفحة : http://oiu.edu.sd/medicine/student_cp.php?do=api"]);
-            $_SESSION[$update->message->chat->id . "action"] = "link";
 
         } elseif ($update->message->text == '/help') {
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
