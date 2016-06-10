@@ -9,7 +9,7 @@
 * || # -----------       Mustafa Taj Special Software      -------------- ||
 * || #################################################################### ||
 * \*======================================================================*/
-
+ini_set('max_execution_time', 300); //300 seconds = 5 minutes
 require 'vendor/autoload.php';
 
 $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
