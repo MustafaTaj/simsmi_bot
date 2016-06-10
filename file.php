@@ -1,9 +1,16 @@
 <?php
-session_start();
-if (!isset($_SESSION['count'])) {
-    $_SESSION['count'] = 0;
-}
-$_SESSION['count']++;
+/** بسم الله الرحمن الرحيم **/
+/*/*====================================================================*\*\
+* || #################################################################### ||
+* || # Script Coded By  Mustafa Taj Elsir : www.fb.com/kemo2011         # ||
+* || # Copyright 2016  All Rights Reserved.                             # ||
+* || # This file may not be redistributed in whole or significant part. # ||
+* || # ------------------ This IS NOT A FREE SOFTWARE ----------------- # ||
+* || # -----------       Mustafa Taj Special Software      -------------- ||
+* || #################################################################### ||
+* \*======================================================================*/
 
-echo "Hello #" . $_SESSION['count'];
+echo "Session : " . $_SESSION["testing"];
+$_SESSION["testing"] = "tt" ;
+
 ?>
