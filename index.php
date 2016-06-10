@@ -24,7 +24,9 @@ $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $UniqID = "action" . $update->message->chat->username;
 $SessionAction = $_SESSION[$UniqID];
-
+$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => "Session Content :" .
+                $_SESSION[$UniqID]]);
 if (!isset($SessionAction)) {
     //your app
     try {
