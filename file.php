@@ -10,15 +10,7 @@
 * || #################################################################### ||
 * \*======================================================================*/
 session_start();
-/*$sessionfile = fopen("sessionfile.txt", "r");
-session_decode(fget($sessionfile,  4096) );
-fclose($sessionfile);*/
-
 print_r($_SESSION) ;
 $_SESSION["testing"] = "tt" ;
 
-echo "<br />" . session_encode( ) ;
-$sessionfile = fopen("sessionfile.txt", "w");
-fputs($sessionfile, session_encode( ) );
-fclose($sessionfile);
 ?>
