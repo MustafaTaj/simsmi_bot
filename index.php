@@ -19,7 +19,7 @@
 */
 require 'vendor/autoload.php';
 
-$client = new Zelenin\Telegram\Bot\Api('236475156:AAGcN0M3hMCOWQ1t8mZFuwNTKXnKhou1vVg'); // Set your access token
+$client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 
