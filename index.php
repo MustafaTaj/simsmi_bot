@@ -22,7 +22,7 @@ require 'vendor/autoload.php';
 $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
-$UniqID = "action" . $update->message->chat->id;
+$UniqID = "action" . $update->message->chat->username;
 $SessionAction = $_SESSION[$UniqID];
 
 if (! isset($SessionAction)) {
@@ -77,7 +77,7 @@ if (! isset($SessionAction)) {
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '" .$update->message->chat->username ]);
+                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة" ]);
         }
 
     }
@@ -90,7 +90,7 @@ if (! isset($SessionAction)) {
 } else {
     if ($action == "link") {
         if ($update->message->text == '/cancel') {
-            $_SESSION[$update->message->chat->id . "action"] = '';
+            $_SESSION[$UniqID] = '';
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
