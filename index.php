@@ -25,7 +25,7 @@ $update = json_decode(file_get_contents('php://input'));
 
 //your app
 try {
-    if ($update->message->text == '/about') {
+    if ($update->message->text == '/about' || $update->message->text == '/start') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
@@ -36,7 +36,7 @@ try {
             'action' => 'typing']);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
             'text' => "يمكنك التواصل معي عبر البريد : for.u.400@gmail.com \nأو الإتصال بي عبر الرقم: 0914191191 \nمصطفى تاج السر - كلية الطب بجامعة أمدرمان الإسلامية ( الدفعة 25 )"]);
-
+    
     } elseif ($update->message->text == '/me') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
