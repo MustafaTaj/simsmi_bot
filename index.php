@@ -54,6 +54,11 @@ try {
         if ($response["return_type"] == "text")
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => $response["return_text"]]);
+        elseif ($response["return_type"] == "keyboard"){
+        $keyb = array('ReplyKeyboardMarkup' => array('keyboard' => array(array("A", "B"))));
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => $response["return_text"], 'reply_markup' => $keyb]);
+        }
     }
 }
 catch (\Zelenin\Telegram\Bot\NotOkException $e) {
