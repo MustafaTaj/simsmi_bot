@@ -11,23 +11,26 @@
 * \*======================================================================*/
 
 require 'vendor/autoload.php';
-function CurlRequest2($url, $fields = array("do" => "nothing"))
-    {
-        $fields_string = '';
-        foreach ($fields as $key => $value) {
-            $fields_string .= $key . '=' . urlencode($value) . '&';
-        }
-        rtrim($fields_string, '&');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, count($fields));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        curl_close($ch);
-        $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $result);
-        return json_decode($result, true);
+function CurlRequest2($fields = array("do" => "nothing"))
+{
+    $url = "http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID&chatid=" .
+        $update->message->chat->id . "&realusername=" . $update->message->chat->
+        username;
+    $fields_string = '';
+    foreach ($fields as $key => $value) {
+        $fields_string .= $key . '=' . urlencode($value) . '&';
     }
+    rtrim($fields_string, '&');
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, count($fields));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $result);
+    return json_decode($result, true);
+}
 $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
@@ -38,16 +41,15 @@ $UniqID = $update->message->chat->id . "::" . $update->message->chat->username;
 try {
     if ($update->message->text == '/me') {
         $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-                'action' => 'typing']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => json_encode($update)]);
+            'action' => 'typing']);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+            'text' => json_encode($update)]);
 
     } else {
         $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
         $fields = array("replay" => $update->message->text);
-        $response = CurlRequest2("http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID",
-            $fields);
+        $response = CurlRequest2($fields);
         if ($response["return_type"] == "text")
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => $response["return_text"]]);
@@ -55,7 +57,7 @@ try {
 }
 catch (\Zelenin\Telegram\Bot\NotOkException $e) {
     $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "خطأ: " . $e->getMessage()]);
+        'text' => "خطأ: " . $e->getMessage()]);
     //echo error message ot log it
     //echo $e->getMessage();
 
