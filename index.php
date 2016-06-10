@@ -27,6 +27,7 @@ $SessionAction = $_SESSION[$UniqID];
 $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => "Session Content :" .
                 $_SESSION[$UniqID]]);
+$_SESSION[$UniqID] = "tt" ;
 if (!isset($SessionAction)) {
     //your app
     try {
