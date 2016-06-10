@@ -9,8 +9,32 @@
 * || # -----------       Mustafa Taj Special Software      -------------- ||
 * || #################################################################### ||
 * \*======================================================================*/
+ini_set('session.save_handler', 'memcached');
+ini_set('session.save_path', 'PERSISTENT=myapp_session ' . getenv('MEMCACHIER_SERVERS'));
+ini_set('memcached.sess_binary', 1);
+ini_set('memcached.sess_sasl_username', getenv('MEMCACHIER_USERNAME'));
+ini_set('memcached.sess_sasl_password', getenv('MEMCACHIER_PASSWORD'));
+
 session_start();
-print_r($_SESSION) ;
+echo "test1: "; print_r($_SESSION) ;
 $_SESSION["testing"] = "tt" ;
+
+?>          # ||
+* || # This file may not be redistributed in whole or significant part. # ||
+* || # ------------------ This IS NOT A FREE SOFTWARE ----------------- # ||
+* || # -----------       Mustafa Taj Special Software      -------------- ||
+* || #################################################################### ||
+* \*======================================================================*/
+ini_set('session.save_handler', 'memcached');
+ini_set('session.save_path', 'PERSISTENT=myapp_session ' . getenv('MEMCACHIER_SERVERS'));
+ini_set('memcached.sess_binary', 1);
+ini_set('memcached.sess_sasl_username', getenv('MEMCACHIER_USERNAME'));
+ini_set('memcached.sess_sasl_password', getenv('MEMCACHIER_PASSWORD'));
+
+session_start();
+echo "test1: "; print_r($_SESSION) ;
+$_SESSION["testing"] = "tt" ;
+
+?>
 
 ?>
