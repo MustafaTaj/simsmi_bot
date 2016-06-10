@@ -77,7 +77,7 @@ if (! isset($SessionAction)) {
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '" .$_SESSION[$UniqID] ]);
+                'text' => "الأمر المدخل غير صحيح, فضلاً إستخدم الأمر /help للحصول على قائمة الأوامر المتاحة '" .$update->message->chat->username ]);
         }
 
     }
