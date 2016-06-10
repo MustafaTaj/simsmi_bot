@@ -13,7 +13,7 @@
 require 'vendor/autoload.php';
 function CurlRequest2($fields = array("do" => "nothing"))
 {
-    global $UniqID;
+    global $UniqID,$update;
     $url = "http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID&chatid=" .
         $update->message->chat->id . "&realusername=" . $update->message->chat->
         username;
