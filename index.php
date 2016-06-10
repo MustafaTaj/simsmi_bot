@@ -74,6 +74,7 @@ if (! isset($SessionAction)) {
                 'text' => $message]);
 
         } else {
+            $_SESSION[$UniqID] = "test";
             $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
                 'action' => 'typing']);
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
