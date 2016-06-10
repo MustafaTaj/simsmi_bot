@@ -26,7 +26,7 @@ class Database
     var $template_error_path;
     var $last_query;
     var $sqlIDs = array();
-    function Database($dbhost = '', $dbuser = '', $dbpassword = '', $dbname = '', $template_error_path = 'template/template/')
+    function Database($dbhost = '', $dbuser = '', $dbpassword = '', $dbname = '', $template_error_path = '/')
     {
         $this->dbhost = $dbhost;
         $this->dbuser = $dbuser;
@@ -50,7 +50,6 @@ class Database
     }
     function print_db_error()
     {
-        global $OIU;
         $data = file_get_contents($this->template_error_path . 'SQL_Error.tpl');
         $data = str_replace(array(
             '{sqlError}',
@@ -62,11 +61,6 @@ class Database
             $this->last_query,
             $this->ErrorLine), $data);
         echo $data;
-        $filename = $ScriptDirPath . "template/template/db_errors.log";
-        $fh = fopen($filename, "a") ;
-        fwrite($fh, 
-        "\r\n[" . date("d-m-Y, H:i:s") . "]:\r\n\t{sqlError = " . $this->db_error() . "}\r\n\t{ERROR_PATH = http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]. "}\r\n\t{LAST_QUERY = ". $this->last_query . "}");
-        fclose($fh);
         exit();
     }
     function query_first($sql)
