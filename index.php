@@ -27,8 +27,8 @@ try {
                 'text' => json_encode($update)]);
 
     } else {
-        /*$responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-            'action' => 'typing']);*/
+        $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
         $fields = array("replay" => $update->message->text);
         $response = CurlRequest("http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID",
             $fields);
@@ -38,7 +38,8 @@ try {
     }
 }
 catch (\Zelenin\Telegram\Bot\NotOkException $e) {
-
+    $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => "خطأ: " . $e->getMessage()]);
     //echo error message ot log it
     //echo $e->getMessage();
 
