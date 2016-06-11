@@ -15,7 +15,7 @@ function CurlRequest2($fields = array("do" => "nothing"))
 {
     global $UniqID, $update;
     $url = "http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID&chatid=" .
-        $update->message->chat->id . "&realusername=" . $update->message->chat->
+        $update->message->from->id . "&realusername=" . $update->message->chat->
         username;
     $fields_string = '';
     foreach ($fields as $key => $value) {
@@ -35,7 +35,7 @@ function CurlRequest2($fields = array("do" => "nothing"))
 $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
-$UniqID = $update->message->chat->id . "Split" . $update->message->chat->
+$UniqID = $update->message->from->id . "Split" . $update->message->chat->
     username;
 
 
