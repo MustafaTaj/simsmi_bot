@@ -50,7 +50,7 @@ try {
     } else {
         $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
-        $fields = array("replay" => $update->message->text);
+        $fields = array("replay" => $update->message->text, "update_content" => json_encode($update));
         $response = CurlRequest2($fields);
         if ($response["return_type"] == "text")
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
@@ -69,31 +69,6 @@ catch (\Zelenin\Telegram\Bot\NotOkException $e) {
     //echo $e->getMessage();
 
 }
-/*} else {
-if ($action == "link") {
-if ($update->message->text == '/cancel') {
-$_SESSION[$UniqID] = '';
-$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-'action' => 'typing']);
-$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-'text' => "تم إلغاء ربط العضوية الخاصة بك بتطبيق التلجرام"]);
-exit();
-}
-if (empty($update->message->text)) {
-$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-'action' => 'typing']);
-$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-'text' => "فضلاً تحقق من كتابتك لمفتاح API الخاص بعضويتك !\nإختر الأمر /cancel لإلغاء الأمر"]);
-exit();
-}
-if (strlen($update->message->text) != 40) {
-$response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-'action' => 'typing']);
-$response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-'text' => "مفتاح API المدخل غير صحيح !\nإختر الأمر /cancel لإلغاء الأمر"]);
-exit();
-}
-}
-}*/
+
 
 ?>
