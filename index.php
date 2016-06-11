@@ -60,6 +60,10 @@ try {
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => $response["return_text"], 'reply_markup' => $response['replay_keyb']]);
         }
+        elseif ($response["return_type"] == "file") {
+            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
+                'caption' => $response["return_text"], 'document' => $response['return_filecontent']]);
+        }
     }
 }
 catch (\Zelenin\Telegram\Bot\NotOkException $e) {
