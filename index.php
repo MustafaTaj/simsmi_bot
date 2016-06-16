@@ -23,6 +23,7 @@ function CurlRequest2($fields = array("do" => "nothing"))
     }
     rtrim($fields_string, '&');
     $ch = curl_init();
+    curl_setopt($curl, CURLOPT_USERAGENT, "OIU-Medicine bot v1.0a");
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, count($fields));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
