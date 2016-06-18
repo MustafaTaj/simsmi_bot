@@ -38,12 +38,8 @@ $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $UniqID = $update->message->from->id . "Split" . $update->message->chat->
     username;
-$responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-            'action' => 'typing']);
-if ($response["return_type"] == "text")
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "test"]);
-exit;
+
+
 //your app
 try {
     if ($update->message->text == '/me') {
@@ -53,7 +49,8 @@ try {
             'text' => json_encode($update)]);
 
     } else {
-        
+        $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
         $fields = array("replay" => $update->message->text, "update_content" => json_encode($update));
         $response = CurlRequest2($fields);
         if ($response["return_type"] == "text")
