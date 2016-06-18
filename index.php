@@ -24,7 +24,7 @@ function CurlRequest2($fields = array("do" => "nothing"))
     rtrim($fields_string, '&');
     $ch = curl_init();
     curl_setopt($curl, CURLOPT_USERAGENT, "OIU-Medicine bot v1.0a");
-    curl_setopt($ch, CURLOPT_URL, $url); 
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, count($fields));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -38,8 +38,12 @@ $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $UniqID = $update->message->from->id . "Split" . $update->message->chat->
     username;
-
-
+$responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
+            'action' => 'typing']);
+if ($response["return_type"] == "text")
+            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => "test"]);
+exit;
 //your app
 try {
     if ($update->message->text == '/me') {
@@ -49,8 +53,7 @@ try {
             'text' => json_encode($update)]);
 
     } else {
-        $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-            'action' => 'typing']);
+        
         $fields = array("replay" => $update->message->text, "update_content" => json_encode($update));
         $response = CurlRequest2($fields);
         if ($response["return_type"] == "text")
