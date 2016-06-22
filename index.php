@@ -66,8 +66,8 @@ try {
                 'caption' => $response["return_text"], 'document' => $response['return_filecontent']]);
         } elseif ($response["return_type"] == "mutlifile") {
             $FilesList = json_decode($response['files_list']);
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => json_decode($response)]);
+            $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => "Testing: \n\n\n" .json_decode($response)]);
             /*foreach ($FilesList as $file) {
             if ($file["type"] == 'document')
             $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
