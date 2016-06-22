@@ -66,9 +66,9 @@ try {
                 'caption' => $response["return_text"], 'document' => $response['return_filecontent']]);
         } elseif ($response["return_type"] == "mutlifile") {
             //$FilesList = json_decode($response['files_list']);
-            $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => "Testing: \n\n\n" . json_encode($response)]);
-            exit;
+            //$client->sendMessage(['chat_id' => $update->message->chat->id,
+            //    'text' => "Testing: \n\n\n" . json_encode($response)]);
+            //exit;
             foreach ($response['files_list'] as $file) {
                 if ($file["type"] == 'document')
                     $client->sendDocument(['chat_id' => $update->message->chat->id, 'caption' => $file["return_text"],
