@@ -51,7 +51,8 @@ try {
     } else {
         $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
             'action' => 'typing']);
-        $fields = array("replay" => $update->message->text, "update_content" => json_encode($update));
+        $fields = array("replay" => $update->message->text, "update_content" =>
+                json_encode($update));
         $response = CurlRequest2($fields);
         if ($response["return_type"] == "text")
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
@@ -60,10 +61,21 @@ try {
         elseif ($response["return_type"] == "keyboard") {
             $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
                 'text' => $response["return_text"], 'reply_markup' => $response['replay_keyb']]);
-        }
-        elseif ($response["return_type"] == "file") {
+        } elseif ($response["return_type"] == "file") {
             $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
                 'caption' => $response["return_text"], 'document' => $response['return_filecontent']]);
+        } elseif ($response["return_type"] == "mutlifile") {
+            $FilesList = json_decode($response['files_list']);
+            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
+                'text' => $response['files_list']);
+            /*foreach ($FilesList as $file) {
+            if ($file["type"] == 'document')
+            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
+            'caption' => $file["return_text"], 'document' => $file['fileid']]);
+            elseif ($file["type"] == 'photo')
+            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
+            'caption' => $file["return_text"], 'photo' => $file['fileid']]);
+            }*/
         }
     }
 }
