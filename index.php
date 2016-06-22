@@ -69,11 +69,11 @@ try {
             //$client->sendMessage(['chat_id' => $update->message->chat->id,
             //    'text' => "Testing: \n\n\n" . json_encode($response)]);
             foreach ($FilesList as $file) {
-            if ($file["type"] == 'document' || $file["type"] == '')
-            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
+            if ($file["type"] == 'document')
+            $client->sendDocument(['chat_id' => $update->message->chat->id,
             'caption' => $file["return_text"], 'document' => $file['fileid']]);
             elseif ($file["type"] == 'photo')
-            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
+            $client->sendPhoto(['chat_id' => $update->message->chat->id,
             'caption' => $file["return_text"], 'photo' => $file['fileid']]);
             }
         }
