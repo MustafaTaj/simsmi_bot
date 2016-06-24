@@ -24,10 +24,9 @@ if ($_GET['password'] != '81c7b6dd7bef83eb339178bbbd3c6059')
 if ($_GET['do'] == 'sendMessage') {
     $ListToSend = json_decode($_POST['ListToSend'], 1);
     foreach ($ListToSend as $SendTo) {
-        echo "{$SendTo['chat_id']}, text: {$SendTo['text']}";
-        //$response = $client->sendMessage(['chat_id' => $SendTo['chat_id'], 'text' => $SendTo['text']]);
+        $response = $client->sendMessage(['chat_id' => $SendTo['chat_id'], 'text' => $SendTo['text']]);
     }
-    //die(json_encode(array("status" => "success", "SentList" => $_POST['ListToSend'])));
+    die(json_encode(array("status" => "success", "SentList" => $_POST['ListToSend'])));
 }
 
 ?>
