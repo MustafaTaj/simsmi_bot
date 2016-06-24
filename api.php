@@ -13,6 +13,10 @@ require 'vendor/autoload.php';
 $client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
 $url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = $_GET['do'];
+if (empty($update))
+die(json_encode(array("status" => "error", "error_message" =>
+            "empty request !")));
+            
 if ($_GET['password'] != '81c7b6dd7bef83eb339178bbbd3c6059')
     die(json_encode(array("status" => "error", "error_message" =>
             "incorrect authincation password !")));
