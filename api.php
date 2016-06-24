@@ -27,7 +27,7 @@ if ($_GET['do'] == 'sendMessage') {
         echo "{$SendTo['chat_id']}, 'text' => {$SendTo['text']}";
         //$response = $client->sendMessage(['chat_id' => $SendTo['chat_id'], 'text' => $SendTo['text']]);
     }
-    die(json_encode(array("status" => "success")));
+    die(json_encode(array("status" => "success", "SentList" => $_POST['ListToSend'])));
 }
 
 ?>
