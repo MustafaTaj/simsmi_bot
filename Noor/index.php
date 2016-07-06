@@ -14,7 +14,10 @@
 require_once dirname(FILE) . "/Class.noor.php"; // Load Noor Class ...
 $Noor = new Noor; // Call Noor Class
 $Runn = $Noor->Get($_GET['q']); // Get Answer // Return is array
-echo json_encode($Runn); // Answer of question
+if (is_array($Runn))
+    echo json_encode($Runn); // Answer of question
+else
+    echo $Runn;
 
 
 ?>
