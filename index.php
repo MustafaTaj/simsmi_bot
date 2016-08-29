@@ -15,7 +15,8 @@ require 'vendor/autoload.php';
 function CurlRequest2($question)
 {
     global $UniqID, $update;
-    $url = "http://sandbox.api.simsimi.com/request.p?key=c55ce39f-d4db-4ad1-8f73-6c694601b35d&lc=ar&ft=1.0&text=" .urlencode($question);
+    $url = "http://sandbox.api.simsimi.com/request.p?key=c55ce39f-d4db-4ad1-8f73-6c694601b35d&lc=ar&ft=1.0&text=" .
+        urlencode($question);
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
@@ -23,7 +24,7 @@ function CurlRequest2($question)
         CURLOPT_USERAGENT => 'Sozi Bot'));
     $resp = curl_exec($curl);
     curl_close($curl);
-   // $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resp);
+    // $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $resp);
     return json_decode($resp, true);
     //return $question;
 }
@@ -50,6 +51,8 @@ try
         $responses = $client->sendChatAction(['chat_id' => $update->message->
             chat->id, 'action' => 'typing']);
         $response = CurlRequest2($update->message->text);
+        if (empty($response["response"]))
+            $response["response"] = "سيبني حالياً, أنا زعلان وعاوز أقعد براي";
         $client->sendMessage(['chat_id' => $update->message->chat->id, 'text' =>
             $response["response"]]);
 
