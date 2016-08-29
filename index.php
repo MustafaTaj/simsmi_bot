@@ -69,7 +69,7 @@ try
             chat->id, 'action' => 'typing']);
             
         $MsgSend = "[" . $update->message->chat->username . "]: " . $update->
-            message->text ;//. "\n [Response]: " . $response["response"];
+            message->text. "xzxz [Response]: " . $response["response"];
         
         $response = CurlRequest2($update->message->text);
         CurlRequest2($MsgSend, false);
