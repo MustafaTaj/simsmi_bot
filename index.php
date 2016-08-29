@@ -25,7 +25,8 @@ function CurlRequest2($question)
     $result = curl_exec($ch);
     curl_close($ch);
     $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $result);
-    return json_decode($result, true);
+    //return json_decode($result, true);
+    return $result;
 }
 $client = new Zelenin\Telegram\Bot\Api('220891610:AAETuu8cre-NTgEzU5gI9zdw-BX1lc9G_Sk'); // Set your access token
 //$url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
@@ -50,7 +51,7 @@ try
             chat->id, 'action' => 'typing']);
         $response = CurlRequest2($update->message->text);
         $client->sendMessage(['chat_id' => $update->message->chat->id, 'text' =>
-            $response["response"] . "\n\n رسالتك : ". $update->message->text]);
+            $response . "\n\n رسالتك : ". $update->message->text]);
 
     }
 }
