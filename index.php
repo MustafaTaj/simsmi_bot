@@ -1,4 +1,5 @@
 <?php
+
 /** بسم الله الرحمن الرحيم **/
 /*/*====================================================================*\*\
 * || #################################################################### ||
@@ -11,86 +12,55 @@
 * \*======================================================================*/
 
 require 'vendor/autoload.php';
-function CurlRequest2($fields = array("do" => "nothing"))
+function CurlRequest2($question)
 {
     global $UniqID, $update;
-    $url = "http://oiu.edu.sd/medicine/api/telegram/index.php?username=$UniqID&chatid=" .
-        $update->message->from->id . "&realusername=" . $update->message->chat->
-        username;
-    $fields_string = '';
-    foreach ($fields as $key => $value) {
-        $fields_string .= $key . '=' . urlencode($value) . '&';
-    }
-    rtrim($fields_string, '&');
+    $url = "http://sandbox.api.simsimi.com/request.p?key=c55ce39f-d4db-4ad1-8f73-6c694601b35d&lc=ar&ft=1.0&text=" . urlencode($question);
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_USERAGENT, "OIU-Medicine bot v1.0a");
+    curl_setopt($ch, CURLOPT_USERAGENT, "Sozi bot v1.0a");
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, count($fields));
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+    curl_setopt($ch, CURLOPT_POST, 0);
+    //curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $result = curl_exec($ch);
     curl_close($ch);
     $result = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $result);
     return json_decode($result, true);
 }
-$client = new Zelenin\Telegram\Bot\Api('183692296:AAEsT63R1yvvYMsWCm0t9NEhUz-OYEByA3c'); // Set your access token
-$url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
+$client = new Zelenin\Telegram\Bot\Api('220891610:AAETuu8cre-NTgEzU5gI9zdw-BX1lc9G_Sk'); // Set your access token
+//$url = 'https://oiu-medicine.herokuapp.com/'; // URL RSS feed
 $update = json_decode(file_get_contents('php://input'));
 $UniqID = $update->message->from->id . "Split" . $update->message->chat->
     username;
 
 
 //your app
-try {
-    if ($update->message->text == '/me') {
-        $response = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-            'action' => 'typing']);
-        $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-            'text' => json_encode($update)]);
+try
+{
+    if ($update->message->text == '/me')
+    {
+        $response = $client->sendChatAction(['chat_id' => $update->message->
+            chat->id, 'action' => 'typing']);
+        $response = $client->sendMessage(['chat_id' => $update->message->chat->
+            id, 'text' => json_encode($update)]);
 
-    } else {
-        $responses = $client->sendChatAction(['chat_id' => $update->message->chat->id,
-            'action' => 'typing']);
-        $fields = array("replay" => $update->message->text, "update_content" =>
-                json_encode($update));
-        $response = CurlRequest2($fields);
-        if ($response["return_type"] == "text")
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => $response["return_text"]]);
+    } else
+    {
+        $responses = $client->sendChatAction(['chat_id' => $update->message->
+            chat->id, 'action' => 'typing']);
+        $response = CurlRequest2($update->message->text);
+        $client->sendMessage(['chat_id' => $update->message->chat->id, 'text' =>
+            $response["response"]]);
 
-        elseif ($response["return_type"] == "keyboard") {
-            $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                'text' => $response["return_text"], 'reply_markup' => $response['replay_keyb']]);
-
-        } elseif ($response["return_type"] == "file") {
-            $response = $client->sendDocument(['chat_id' => $update->message->chat->id,
-                'caption' => $response["return_text"], 'document' => $response['return_filecontent']]);
-
-        } elseif ($response["return_type"] == "mutlifile") {
-            foreach ($response['files_list'] as $file) {
-                if ($file["type"] == 'document')
-                    $client->sendDocument(['chat_id' => $update->message->chat->id, 'caption' => $file["return_text"],
-                        'document' => $file['fileid']]);
-                elseif ($file["type"] == 'photo')
-                    $client->sendPhoto(['chat_id' => $update->message->chat->id, 'caption' => $file["return_text"],
-                        'photo' => $file['fileid']]);
-                elseif ($file["type"] == 'text')
-                    $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                        'text' => $file["return_text"]]);
-                elseif ($file["type"] == "keyboard")
-                    $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
-                        'text' => $file["return_text"], 'reply_markup' => $file['replay_keyb']]);
-            }
-        }
     }
 }
-catch (\Zelenin\Telegram\Bot\NotOkException $e) {
+catch (\Zelenin\Telegram\Bot\NotOkException $e)
+{
     $response = $client->sendMessage(['chat_id' => $update->message->chat->id,
         'text' => "خطأ: " . $e->getMessage()]);
     //echo error message ot log it
     //echo $e->getMessage();
 
 }
-
 
 ?>
