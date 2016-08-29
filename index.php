@@ -50,7 +50,7 @@ try
             chat->id, 'action' => 'typing']);
         $response = CurlRequest2($update->message->text);
         $client->sendMessage(['chat_id' => $update->message->chat->id, 'text' =>
-            $response["response"]]);
+            $response["response"] . "\n\n رسالتك : ". ($update->message->text]);
 
     }
 }
