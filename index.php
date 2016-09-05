@@ -17,7 +17,7 @@ function CurlRequest2($question, $returnJson = true)
     global $UniqID, $update;
     if ($returnJson)
        // $url = "http://sandbox.api.simsimi.com/request.p?key=935a036f-488e-4ebf-ba9b-705afc65ad2c&lc=ar&ft=1.0&text=" . MTFM
-       $url = "http://sandbox.api.simsimi.com/request.p?key=c55ce39f-d4db-4ad1-8f73-6c694601b35d&lc&lc=ar&ft=1.0&text=" .
+       $url = "http://sandbox.api.simsimi.com/request.p?key=371a09cf-2e4d-40fd-931b-a8f5d5964bfa&lc=ar&ft=1.0&text=" .
             urlencode($question);
     else
         $url = "http://oiu.edu.sd/medicine/misc.php?do=rem1&save=" . urlencode($question);
