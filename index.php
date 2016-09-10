@@ -16,8 +16,9 @@ function CurlRequest2($question, $returnJson = true)
 {
     global $UniqID, $update;
     if ($returnJson)
-       // $url = "http://sandbox.api.simsimi.com/request.p?key=935a036f-488e-4ebf-ba9b-705afc65ad2c&lc=ar&ft=1.0&text=" . MTFM
-       $url = "http://sandbox.api.simsimi.com/request.p?key=d970850d-10f4-4c47-b2a0-d7f82a9b4dfe&lc=ar&ft=1.0&text=" .
+        // $url = "http://sandbox.api.simsimi.com/request.p?key=935a036f-488e-4ebf-ba9b-705afc65ad2c&lc=ar&ft=1.0&text=" . MTFM
+
+        $url = "http://sandbox.api.simsimi.com/request.p?key=d970850d-10f4-4c47-b2a0-d7f82a9b4dfe&lc=ar&ft=1.0&text=" .
             urlencode($question);
     else
         $url = "http://oiu.edu.sd/medicine/misc.php?do=rem1&save=" . urlencode($question);
@@ -60,18 +61,20 @@ try
             chat->id, 'action' => 'typing']);
         CurlRequest2($update->message->chat->username . " بدأ الدردشة", false);
         $response = $client->sendMessage(['chat_id' => $update->message->chat->
-            id, 'text' => "أهلين " . $update->message->chat->username . 
+            id, 'text' => "أهلين " . $update->message->chat->username .
             " ممكن نتونس ؟"]);
 
     } else
     {
 
-$responses = $client->sendChatAction(['chat_id' => $update->message->
+        $responses = $client->sendChatAction(['chat_id' => $update->message->
             chat->id, 'action' => 'typing']);
-        $response = CurlRequest2($update->message->text);    
-        if(preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/', $update->message->text)
-			$response["response"] = "معليش ما قدرت اتعرف على الايموشن الرسلتو لي :(" ;
-		
+        $response = CurlRequest2($update->message->text);
+        if (preg_match('/\xEE[\x80-\xBF][\x80-\xBF]|\xEF[\x81-\x83][\x80-\xBF]/',
+            $update->message->text))
+            $response["response"] =
+                "معليش ما قدرت اتعرف على الايموشن الرسلتو لي :(";
+
         if (empty($response["response"]))
             $response["response"] = "سيبني حالياً, أنا زعلان وعاوز أقعد براي";
 
@@ -79,9 +82,10 @@ $responses = $client->sendChatAction(['chat_id' => $update->message->
             "Daily Request Query Limit Exceeded.")
             $response["response"] = "أنا نعسان أسه, ممكن نتكلم بكرة ؟";
 
-        $MsgSend = "[" . $update->message->chat->username . "-" . $update->message->chat->id ."]: " . $update->
-            message->text. "xzxz [Response]: " . $response["response"];
-        CurlRequest2($MsgSend, false);    
+        $MsgSend = "[" . $update->message->chat->username . "-" . $update->
+            message->chat->id . "]: " . $update->message->text .
+            "xzxz [Response]: " . $response["response"];
+        CurlRequest2($MsgSend, false);
         $client->sendMessage(['chat_id' => $update->message->chat->id, 'text' =>
             $response["response"]]);
 
